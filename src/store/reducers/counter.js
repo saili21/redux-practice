@@ -1,8 +1,7 @@
-import * as actionTypes from '../store/actions';
+import * as actionTypes from '../actions';
 
 const initialState = {
-    counter : 0 ,
-    results : []
+    counter : 0
 }
 
 const redcuer = (state = initialState, action) => {
@@ -25,21 +24,7 @@ const redcuer = (state = initialState, action) => {
             return {
                 ...state,
                 counter: state.counter - 5
-            } 
-        case actionTypes.STORE_RESULT:
-            return {
-               ...state,
-               results: state.results.concat({val: state.counter, id:new Date()}) // conact returns new array so immutable, push wud have mutted old array itself
-            }
-        case actionTypes.DELETE_RESULT:
-            // const newArray = [...state.results]
-            // newArray.splice(id,1);
-
-            const newArray = state.results.filter(result => result.id !== action.resultElId); // filter return a new copy of array (immutable)
-            return {
-                ...state,
-                results: newArray
-            }     
+            }  
         default:
             return state
     }  
