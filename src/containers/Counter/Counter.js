@@ -6,7 +6,7 @@ import * as actionTypes from '../../store/actions';
 
 class Counter extends Component {
     state = {
-        counter: 0
+        number: null
     }
 
     counterChangedHandler = ( action, value ) => {
@@ -26,14 +26,22 @@ class Counter extends Component {
         }
     }
 
+    onNumberChangedHandler = (event) => {
+        this.setState({number: parseInt(event.target.value)});
+    }
+
     render () {
         return (
             <div>
                 <CounterOutput value={this.props.ctr} />
                 <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
                 <CounterControl label="Decrement" clicked={this.props.onDecrementCounter}  />
-                <CounterControl label="Add 5" clicked={this.props.addNumberToCounter}  />
-                <CounterControl label="Subtract 5" clicked={this.props.subNumberToCounter}  />
+                <CounterControl label={'Add ' + (this.state.number ? this.state.number :  '')} 
+                clicked={() => this.props.addNumberToCounter(this.state.number)}  />
+                <CounterControl label={'Subtract ' + (this.state.number ? this.state.number :  '')} 
+                clicked={() => this.props.subNumberToCounter(this.state.number)}  />
+                <p>Enter the number to be added or substracted:</p> 
+                <input type="number" placeholder="Enter Number" onChange={this.onNumberChangedHandler}/>
                 <hr />
                 <button onClick={() => this.props.onStoreResult(this.props.ctr)}>Store Result</button>
                 <ul>
@@ -57,8 +65,8 @@ const mapDispatchT0Props = dispatch => {
     return {
         onIncrementCounter: () => dispatch({type: actionTypes.INCREMENT}),
         onDecrementCounter: () => dispatch({type: actionTypes.DECREMENT}),
-        addNumberToCounter: () => dispatch({type: actionTypes.ADD, value: 5}),
-        subNumberToCounter: () => dispatch({type: actionTypes.SUB, value: 5}),
+        addNumberToCounter: (number) => dispatch({type: actionTypes.ADD, value: number}),
+        subNumberToCounter: (number) => dispatch({type: actionTypes.SUB, value: number}),
         onStoreResult: (result) => dispatch({type: actionTypes.STORE_RESULT, result}),
         onDeleteRsult: (id) => dispatch({type: actionTypes.DELETE_RESULT, resultElId:id})
     };
